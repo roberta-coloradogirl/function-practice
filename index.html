@@ -41,10 +41,23 @@
           ]
         });
 
+				function reverseString(fragment) {
+					var revdFrag='';
+					var revIdx=0;
+					if (fragment) {
+						for ( var i=fragment.length-1; i<0; i--) {
+							revdFrag.push(fragment[i]);
+						}
+						return revdFrag;
+					} 
+					else {
+						return null;
+					};
+				}
         createExample('Reverse Text', {
           description: 'Create a function that reverses the characters in \
             a string',
-          implementation: null,
+          implementation: reverseString,
           validation: [
             {
               input: 'test value',
