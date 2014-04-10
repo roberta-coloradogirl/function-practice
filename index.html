@@ -71,12 +71,15 @@
           ]
         });
 
+				<!-- function to translate a number as currancy quantities  -->
+				function tenderChange(currency) {
+				}
         createExample('Tender Change', {
           description: 'Write a function that given a dollar amount returns \
             the change in bills and coins. For instance, given \
             <code>7.23</code> it should return: \
             <pre>{ fives: 1, ones: 2, dimes: 2, pennies: 3 }</pre>',
-          implementation: null,
+          implementation: tenderChange,
           validation: [
             {
               input: 7.23,
