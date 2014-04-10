@@ -42,17 +42,14 @@
         });
 
 				function reverseString(fragment) {
-					var revdFrag='';
+					// check null string
+					if ( fragment === null) return null;
 					
-					if ( fragment ) {
-						for ( var i=fragment.length-1; i<0; i--) {
-							revdFrag.push(fragment[i]);
-						};
-						return revdFrag;
-					} 
-					else {
-						return null;
+					var revdFrag='';				
+					for ( var i=fragment.length-1; i>=0; i--) {
+						revdFrag += fragment[i];
 					};
+					return revdFrag;
 				}
         createExample('Reverse Text', {
           description: 'Create a function that reverses the characters in \
