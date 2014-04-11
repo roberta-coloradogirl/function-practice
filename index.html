@@ -14,7 +14,7 @@
       $(document).ready(function() {
 
         function wordCount(fragment) {
-					if(!fragment || (fragment.length === 0) ) return 0;
+          if(!fragment || (fragment.length === 0) ) return 0;
           return fragment.trim().split(/\s+/).length;
         }
         createExample('Word Count', {
@@ -30,27 +30,27 @@
               input: '  ignore  spaces  ',
               output: 2
             },
-						{
-							input: null,
-							output: 0
-						},
-						{
-							input: '',
-							output: 0
-						}
+            {
+              input: null,
+              output: 0
+            },
+            {
+              input: '',
+              output: 0
+            }
           ]
         });
 
-				function reverseString(fragment) {
-					// check null string
-					if ( fragment === null) return null;
-					
-					var revdFrag='';				
-					for ( var i=fragment.length-1; i>=0; i--) {
-						revdFrag += fragment[i];
-					};
-					return revdFrag;
-				}
+        function reverseString(fragment) {
+          // check null string
+          if ( fragment === null) return null;
+
+          var revdFrag='';
+          for ( var i=fragment.length-1; i>=0; i--) {
+            revdFrag += fragment[i];
+          };
+          return revdFrag;
+        }
         createExample('Reverse Text', {
           description: 'Create a function that reverses the characters in \
             a string',
@@ -71,19 +71,55 @@
           ]
         });
 
-				<!-- function to translate a number as currancy quantities  -->
-				function tenderChange(currency) {
-				}
-        createExample('Tender Change', {
+        // function to translate a number as currancy quantities
+        function tenderDenominations(currency) {
+          // create empty Denominations
+          var Denominations = {
+                          fives: 500,
+                          ones: 100,
+                          dimes: 10,
+                          pennies: 1
+          };
+          var change = {
+                          fives: 0,
+                          ones: 0,
+                          dimes: 0,
+                          pennies: 0
+          };;
+          // promote currency by 100 to eliminate dealing with he decimal point
+          var remainder = currency * 100;
+          var billCount = 0;
+          var tstVar = 0;
+          // return empty Denominations if no currency
+          
+          for ( var bills in Denominations ) {  
+            billCount = remainder / Denominations[bills];
+            billCount = parseInt(billCount.toString(),10);
+            if ( billCount < 0 ) 
+               billCount = 0;
+            change[bills] = billCount;
+            remainder = remainder - ( billCount * Denominations[bills])
+            if ( remainder < 0 ) 
+               remainder = 0;
+          };
+
+          return change;
+          // loop through currency making change
+        }
+        createExample('Tender Denominations', {
           description: 'Write a function that given a dollar amount returns \
-            the change in bills and coins. For instance, given \
+            the Denominations in bills and coins. For instance, given \
             <code>7.23</code> it should return: \
             <pre>{ fives: 1, ones: 2, dimes: 2, pennies: 3 }</pre>',
-          implementation: tenderChange,
+          implementation: tenderDenominations,
           validation: [
             {
               input: 7.23,
-              output: { fives: 1, ones: 2, dimes: 2, pennies: 5 }
+              output: { fives: 1, ones: 2, dimes: 2, pennies: 3 }
+            },
+            {
+              input: 0.0,
+              output: { fives: 0, ones: 0, dimes: 0, pennies: 0 }
             }
           ]
         });
@@ -130,5 +166,5 @@
       });
     </script>
 
-  </body>
+Denominations</body>
 </html>
