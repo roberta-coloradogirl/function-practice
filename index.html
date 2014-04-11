@@ -153,7 +153,31 @@
           'Fight Club,1999,791186',
           'Star Wars: Episode V - The Empire Strikes Back,1980,503348'
         ];
-
+        
+        function movieParse(movies) {
+          var MovieObj = { movie: '',
+                           year: 0,
+                           votes: 0
+                         };
+          var movieData = [ MovieObj ];
+          var dataIdx = 0;
+          for ( var idx=0; idx < movieList.length; idx++ ) {
+            var movie = movieList[idx].split(",");
+            MovieObj.movie = movie[0];
+            MovieObj.year = movie[1];
+            MovieObj.votes = movie[2];
+            console.log(MovieObj.movie +"*"+MovieObj.year+"*"+MovieObj.votes);
+            movieData.push(MovieObj);
+          };
+          function compareYears(movieA,movieB) {
+            if ( movieA.year < movieB.year ) return -1;
+            if ( movieA.year === movieB.year ) return 0;
+            if ( movieA.year > movieB.year ) return 1;
+          }
+          movieData.sort(compareYears(MovieObj,MovieObj))
+          
+          return movieData;
+        }
         createExample('Movie Parsing', {
           description: "Given the following comma separated list of IMDb top \
             rated movies: <pre>var movieList = " +
@@ -161,10 +185,17 @@
             "</pre> create a function that splits the values into the title, \
             year, and number of votes and returns a list of movie objects \
             sorted by year.",
-          implementation: null
+          implementation: movieParse,
+          validation: [
+            {
+              input: movieList,
+              output: ' ',
+              
+            }
+          ]
         });
       });
     </script>
 
-Denominations</body>
+  </body>
 </html>
