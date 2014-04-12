@@ -70,36 +70,34 @@
             }
           ]
         });
-
+        var Denominations = {
+                          hundreds: 10000,
+                          fifties: 5000,
+                          twenties: 2000,
+                          tens: 1000,
+                          fives: 500,
+                          ones: 100,
+                          quarters: 25,
+                          dimes: 10,
+                          nickels: 5,
+                          pennies: 1
+          };
         // function to translate a number as currancy quantities
         function tenderDenominations(currency) {
           // create empty Denominations
-          var Denominations = {
-                          fives: 500,
-                          ones: 100,
-                          dimes: 10,
-                          pennies: 1
-          };
-          var change = {
-                          fives: 0,
-                          ones: 0,
-                          dimes: 0,
-                          pennies: 0
-          };;
+          var change = {};
           // promote currency by 100 to eliminate dealing with he decimal point
           var remainder = currency * 100;
           var billCount = 0;
           var tstVar = 0;
           // return empty Denominations if no currency
-          
-          for ( var bills in Denominations ) {  
-            billCount = remainder / Denominations[bills];
-            billCount = parseInt(billCount.toString(),10);
-            if ( billCount < 0 ) 
-               billCount = 0;
-            change[bills] = billCount;
-            remainder = remainder - ( billCount * Denominations[bills])
-            if ( remainder < 0 ) 
+
+          for ( var bills in Denominations ) {
+            billCount = Math.floor(remainder / Denominations[bills]);
+            if ( billCount > 0 )
+               change[bills] = billCount;
+            remainder = Math.floor(remainder - ( billCount * Denominations[bills]));
+            if ( remainder < 0 )
                remainder = 0;
           };
 
@@ -118,8 +116,12 @@
               output: { fives: 1, ones: 2, dimes: 2, pennies: 3 }
             },
             {
-              input: 0.0,
-              output: { fives: 0, ones: 0, dimes: 0, pennies: 0 }
+              input: 0.00,
+              output: { }
+            },
+            {
+              input: 238.48,
+              output: { hundreds: 2, twenties:1, tens:1, fives: 1, ones: 3, quarters: 1, dimes: 2, pennies: 3 }
             }
           ]
         });
@@ -153,29 +155,32 @@
           'Fight Club,1999,791186',
           'Star Wars: Episode V - The Empire Strikes Back,1980,503348'
         ];
-        
+
         function movieParse(movies) {
-          var MovieObj = { movie: '',
-                           year: 0,
-                           votes: 0
-                         };
-          var movieData = [ MovieObj ];
+          
+          var movieData = [];
           var dataIdx = 0;
           for ( var idx=0; idx < movieList.length; idx++ ) {
             var movie = movieList[idx].split(",");
-            MovieObj.movie = movie[0];
-            MovieObj.year = movie[1];
-            MovieObj.votes = movie[2];
-            console.log(MovieObj.movie +"*"+MovieObj.year+"*"+MovieObj.votes);
-            movieData.push(MovieObj);
+            var MovieObj = { movie: movie[0],
+                                    year: movie[1],
+                                    votes: movie[2]
+                                  };
+            console.log(MovieObj.movie +"--"+MovieObj.year+"--"+MovieObj.votes);
+            movieData.push( MovieObj );
           };
+          console.log("movies: "+movieData.length);
           function compareYears(movieA,movieB) {
-            if ( movieA.year < movieB.year ) return -1;
-            if ( movieA.year === movieB.year ) return 0;
-            if ( movieA.year > movieB.year ) return 1;
-          }
+              console.log("compare "+movieA.movie+" WITH "+movieB.movie);
+            // if ( movieA.year < movieB.year ) return -1;
+           //  if ( movieA.year === movieB.year ) return 0;
+           //  if ( movieA.year > movieB.year ) return 1;
+            return 0;
+          };
           movieData.sort(compareYears(MovieObj,MovieObj))
-          
+          for ( var idx=0; idx < movieData.length; idx++ ) {
+              console.log("movieData["+idx+"] "+movieData[idx].movie +"*"+movieData[idx].year+"*"+movieData[idx].votes);
+          }
           return movieData;
         }
         createExample('Movie Parsing', {
@@ -189,8 +194,7 @@
           validation: [
             {
               input: movieList,
-              output: ' ',
-              
+              output: ' '
             }
           ]
         });
