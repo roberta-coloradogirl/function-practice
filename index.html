@@ -77,6 +77,7 @@
                           tens: 1000,
                           fives: 500,
                           ones: 100,
+                          halves: 50,
                           quarters: 25,
                           dimes: 10,
                           nickels: 5,
@@ -95,7 +96,7 @@
           for ( var bills in Denominations ) {
             billCount = Math.floor(remainder / Denominations[bills]);
             if ( billCount > 0 )
-               change[bills] = billCount;
+               change[bills] = billCount;  // use bills as index into new change object and store count
             remainder = Math.floor(remainder - ( billCount * Denominations[bills]));
             if ( remainder < 0 )
                remainder = 0;
@@ -157,30 +158,34 @@
         ];
 
         function movieParse(movies) {
-          
-          var movieData = [];
-          var dataIdx = 0;
+          var MovieObj = { movie: "",
+                           year: 0,
+                           votes: 0
+                         };
+          var movieData = [MovieObj,MovieObj,MovieObj,MovieObj,MovieObj,
+                           MovieObj,MovieObj,MovieObj,MovieObj,MovieObj];
+  
           for ( var idx=0; idx < movieList.length; idx++ ) {
+            var mObj = { movie: "",
+                         year: 0,
+                         votes: 0
+                       };
             var movie = movieList[idx].split(",");
-            var MovieObj = { movie: movie[0],
-                                    year: movie[1],
-                                    votes: movie[2]
-                                  };
-            console.log(MovieObj.movie +"--"+MovieObj.year+"--"+MovieObj.votes);
-            movieData.push( MovieObj );
+            mObj.movie = movie[0];
+            mObj.year = parseInt(movie[1]);
+            mObj.votes = parseInt(movie[2]);
+//            console.log(mObj.movie +"--"+mObj.year+"--"+mObj.votes);
+            movieData[idx] = mObj;
           };
-          console.log("movies: "+movieData.length);
-          function compareYears(movieA,movieB) {
-              console.log("compare "+movieA.movie+" WITH "+movieB.movie);
-            // if ( movieA.year < movieB.year ) return -1;
-           //  if ( movieA.year === movieB.year ) return 0;
-           //  if ( movieA.year > movieB.year ) return 1;
-            return 0;
-          };
-          movieData.sort(compareYears(MovieObj,MovieObj))
+//          console.log(JSON.stringify(movieData));
+          
+          movieData.sort(function(a,b) {return a.year-b.year;} );
+//          debugger;
           for ( var idx=0; idx < movieData.length; idx++ ) {
-              console.log("movieData["+idx+"] "+movieData[idx].movie +"*"+movieData[idx].year+"*"+movieData[idx].votes);
-          }
+//              console.log("movieData["+idx+"] "+movieData[idx].movie +" ** "+movieData[idx].year+" ** "+movieData[idx].votes);
+          };
+          //console.log("After sort movie count: "+movieData.length);
+
           return movieData;
         }
         createExample('Movie Parsing', {
@@ -194,7 +199,17 @@
           validation: [
             {
               input: movieList,
-              output: ' '
+              output: [ {"movie":"12 Angry Men","year":1957,"votes":255846},
+                        {"movie":"The Godfather","year":1972,"votes":732416},
+                        {"movie":"The Godfather: Part II","year":1974,"votes":474640},
+                        {"movie":"Star Wars: Episode V - The Empire Strikes Back","year":1980,"votes":503348},
+                        {"movie":"Schindler's List","year":1993,"votes":528900},
+                        {"movie":"The Shawshank Redemption","year":1994,"votes":1043071},
+                        {"movie":"Pulp Fiction","year":1994,"votes":806431},
+                        {"movie":"Fight Club","year":1999,"votes":791186},
+                        {"movie":"The Lord of the Rings: The Return of the King","year":2003,"votes":738931},
+                        {"movie":"The Dark Knight","year":2008,"votes":1017508}
+                      ]
             }
           ]
         });
